@@ -18,6 +18,8 @@ and open the template in the editor.
             <table id="mitabla"></table>
         </div>
         <button id="borrar">Borrar</button>
+        <button class="getId" id="0">Get</button>
+        <button class="getAll" >Get</button>
         <script type="text/javascript">
 //            $('#mitabla').orderTable();
             $(document).ready(function() {
@@ -32,6 +34,14 @@ and open the template in the editor.
             });
             $('#borrar').click(function(){
                 $('#mitabla').orderTable('removeLinea',1);
+            });
+            $('.getId').click(function(){
+              linea =  $('#mitabla').orderTable('getLinea',0);
+              console.log(linea);
+            });
+            $('.getAll').click(function(){
+              lineas =  $('#mitabla').orderTable('getLineas');
+              console.log(lineas);
             });
         </script>
     </body>
