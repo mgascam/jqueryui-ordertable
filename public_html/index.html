@@ -17,6 +17,7 @@ and open the template in the editor.
         <div>
             <table id="mitabla"></table>
         </div>
+        <button id="borrar">Borrar</button>
         <script type="text/javascript">
 //            $('#mitabla').orderTable();
             $(document).ready(function() {
@@ -24,7 +25,13 @@ and open the template in the editor.
                     headers:["Ref","Descripcion","Cant","Precio","Subtotal"]
                 });
                 var linea = ["A0001", "La descripcion", 5, 13];
+                var linea2 = ["A0002", "La descripcion", 5, 13];
+                
                 $('#mitabla').orderTable('addLinea',linea);
+                $('#mitabla').orderTable('addLinea',linea2);
+            });
+            $('#borrar').click(function(){
+                $('#mitabla').orderTable('removeLinea',1);
             });
         </script>
     </body>

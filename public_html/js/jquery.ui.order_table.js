@@ -61,18 +61,23 @@
             this.body += row;
         },
         _render: function(el) {
+            this.body = "";
             this._createHeader();
             this._createBody();
             el.html(this.header + this.body);
         },
-        addLinea:function(linea){
+        addLinea: function(linea) {
             this.lineas.push(linea);
             this._render(this.element);
         },
+        removeLinea: function(id) {
+            this.lineas.splice(id);
+            console.log(this.lineas);
+            this._render(this.element);
+        },        
         // Destroy an instantiated plugin and clean up 
         // modifications the widget has made to the DOM
         destroy: function() {
-
             // this.element.removeStuff();
             // For UI 1.8, destroy must be invoked from the 
             // base widget
