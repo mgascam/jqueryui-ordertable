@@ -36,9 +36,17 @@
             var el = self.element;
             this._on(el, {
                 "dblclick tbody tr": function(event) {
-                    console.log(event.currentTarget.id);
+                    var linea = ["A0001", "La descripcion", 5, 13.4];
+                    this.addLinea(linea);
                 },
-                "change input.cell-unidades": this.editLinea
+                "change input.cell-unidades": this.editLinea,
+                "click .borrar": function(event) {
+                    var target = event.currentTarget;
+                    var value = $(target).val();
+                    var rowId = $(target).closest('tr').attr('id');
+                    console.log(rowId);
+                    this.removeLinea(rowId);
+                }
             });
             this._render(el);
         },
@@ -72,6 +80,8 @@
                 }
                 //Calcular subtotal
                 tds += "<td>" + item[2] * item[3] + "</td>";
+                //Generar boton de borrar
+                tds += "<td><button class='borrar'>x</button></td>";
                 row += "<tr id=" + i + ">" + tds + "</td></tr>";
             });
             this.body += row;
@@ -103,7 +113,7 @@
             this._render(this.element);
         },
         removeLinea: function(id) {
-            this.lineas.splice(id);
+            this.lineas.splice(id, 1);
             this._render(this.element);
         },
         editLinea: function(event) {
