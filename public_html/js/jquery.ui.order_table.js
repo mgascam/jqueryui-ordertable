@@ -22,6 +22,7 @@
             lineas: [],
             totales: {}
         },
+        lineas: [],
         //Setup widget (eg. element creation, apply theming
         // , bind events etc.)
         _create: function() {
@@ -33,9 +34,17 @@
             // via this.options this.element.addStuff();
             var self = this;
             var el = self.element;
-//            this.lineas = [["A0001", "La descripcion", 5, 13], [ "A0002", "La descripcion", 5, 1]];
-            this.lineas = [];
+            this._on( el, {
+                "dblclick tbody tr": function(event){
+                    console.log(event.currentTarget.id);
+                }
+            });
             this._render(el);
+        },
+        dobleClick: function (data,event){
+            event.preventDefault();
+            console.log(event);
+                    alert("click");
         },
         _createHeader: function() {
             var th = "";
@@ -60,11 +69,27 @@
             });
             this.body += row;
         },
+        _createFooter: function() {
+            var unidades = 0;
+            var total = 0;
+            var row = "";
+            var tds = "";
+            $(this.lineas).each(function(i, item) {
+                unidades += item[2];
+                total += item[2] * item[3];
+            });
+            tds += "<td></td><td></td><td></td><td>" + unidades + "</td><td></td><td>" + total + "</td>";
+            row += "<tfooter><tr>" + tds + "</tr></tfooter>";
+            this.footer = row;
+        },
         _render: function(el) {
+            this.header = "";
             this.body = "";
+            this.footer = "";
             this._createHeader();
             this._createBody();
-            el.html(this.header + this.body);
+            this._createFooter();
+            el.html(this.header + this.body + this.footer);
         },
         addLinea: function(linea) {
             this.lineas.push(linea);
@@ -78,7 +103,24 @@
             var index = linea
             this.lineas.splice(id);
             this._render(this.element);
-        },        
+        },
+        getLinea: function(id) {
+            var linea = {};
+            linea.codigo = this.lineas[id][0];
+            linea.nombre = this.lineas[id][1];
+            linea.cantidad = this.lineas[id][2];
+            linea.precio = this.lineas[id][3];
+            linea.subtotal = linea.cantidad * linea.precio;
+            return linea;
+        },
+        getLineas: function() {
+            var lineas = [];
+            for (var i = 0; i < this.lineas.length; i++) {
+                lineas.push(this.getLinea(i));
+            }
+            return lineas;
+
+        },
         // Destroy an instantiated plugin and clean up 
         // modifications the widget has made to the DOM
         destroy: function() {
