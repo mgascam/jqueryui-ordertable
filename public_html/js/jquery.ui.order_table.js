@@ -34,17 +34,18 @@
             // via this.options this.element.addStuff();
             var self = this;
             var el = self.element;
-            this._on( el, {
-                "dblclick tbody tr": function(event){
+            this._on(el, {
+                "dblclick tbody tr": function(event) {
                     console.log(event.currentTarget.id);
-                }
+                },
+                "change input.cell-unidades": this.editLinea
             });
             this._render(el);
         },
-        dobleClick: function (data,event){
+        dobleClick: function(data, event) {
             event.preventDefault();
             console.log(event);
-                    alert("click");
+            alert("click");
         },
         _createHeader: function() {
             var th = "";
@@ -61,7 +62,13 @@
             $(this.lineas).each(function(i, item) {
                 var tds = "<td>" + i + "</td>";
                 for (var j = 0; j < item.length; j++) {
-                    tds += "<td>" + item[j] + "</td>";
+                    //Celdas con input
+                    if (j === 2) {
+                        tds += "<td><input type='text' class ='cell-unidades' value=" + item[j] + " /></td>";
+                    }
+                    else {
+                        tds += "<td>" + item[j] + "</td>";
+                    }
                 }
                 //Calcular subtotal
                 tds += "<td>" + item[2] * item[3] + "</td>";
@@ -98,10 +105,13 @@
         removeLinea: function(id) {
             this.lineas.splice(id);
             this._render(this.element);
-        },        
-        editLinea: function(linea) {
-            var index = linea
-            this.lineas.splice(id);
+        },
+        editLinea: function(event) {
+            var target = event.currentTarget;
+            var value = $(target).val();
+            var rowId = $(target).closest('tr').attr('id');
+            //La cantidad es la posicion 2 del array
+            this.lineas[rowId][2] = parseInt(value);
             this._render(this.element);
         },
         getLinea: function(id) {
