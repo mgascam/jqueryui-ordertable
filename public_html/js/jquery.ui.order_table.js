@@ -72,7 +72,11 @@
         },
         removeLinea: function(id) {
             this.lineas.splice(id);
-            console.log(this.lineas);
+            this._render(this.element);
+        },        
+        editLinea: function(linea) {
+            var index = linea
+            this.lineas.splice(id);
             this._render(this.element);
         },        
         // Destroy an instantiated plugin and clean up 
